@@ -1,0 +1,79 @@
+#include <Servo.h> Servo servo1;
+int proxpin=3;
+int exitpin=4;
+int val;
+int exitval;
+int c=0;
+int threshold=600; int pins[]={0,0,0}; int a0=0;
+int a1=0;
+int a2=0;
+int d1=0;
+int d2=0;
+int d3=0;
+int status[]={0,0,0}; void setup() {
+// put your setup code here, to run once: Serial.begin(9600);
+servo1.attach(8);
+}
+void loop() {
+// put your main code here, to run repeatedly: a0=analogRead(A0);
+a1=analogRead(A1);
+a2=analogRead(A2);
+d1=abs(a0-pins[0]); d2=abs(a1-pins[1]);
+ 
+d3=abs(a2-pins[2]);
+const int position1start=450; const int position2start=400; const int position3start=200; int position1=180;
+int position2=270;
+int position3=0; if(d1>threshold)
+{
+Serial.println("Parking 0 movement"); if (status[0]==0)
+{
+status[0]=1; }
+else {
+status[0]=0; }
+} if(d2>threshold) {
+Serial.println("Parking 1 movement"); if (status[1]==0)
+{
+status[1]=1; }
+else{ status[1]=0;
+} }
+
+if(d3>threshold) {
+Serial.println("Parking 2 movement"); if (status[2]==0)
+{
+status[2]=1; }
+else {
+status[2]=0; }
+}
+pins[0]=a0; pins[1]=a1; pins[2]=a2; if(c%100==0) {
+if (status[0]==0) {
+Serial.println("Parking 0 is free"); }
+if (status[1]==0) {
+Serial.println("Parking 1 is free"); }
+if (status[2]==0) {
+Serial.println("Parking 2 is free"); }
+Serial.println("--------------------");
+
+}
+c+=1;
+int sensorValue=analogRead(A3); //Serial.print(sensorValue); delay(1); val=analogRead(proxpin);
+if (val>position1start)
+{
+servo1.write(position1);
+//Serial.print("close"); }
+else {
+int free=0;
+for (int i=0;i<3;i++) {
+if (status[i]==0) {
+free+=1; }
+}
+if (free>0) {
+servo1.write(position3); //Serial.print('open'); delay(5000);
+} }
+exitval=analogRead(exitpin); if (exitval>position1start)
+
+{
+servo1.write(position1); //Serial.print("close");
+} else {
+servo1.write(position3); //Serial.print('open'); delay(5000);
+}
+delay(10); }
