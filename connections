@@ -1,0 +1,8 @@
+For the connections we have connected analog pins as:
+A0: Parking connected to number 0 piezo sensor
+A1: Parking connected to number 1 piezo sensor
+A2: Parking connected to number 2 piezo sensor
+A3: connection for the Entry IR sensor
+A4: connection for the Exit IR sensor
+And Digital pins as:
+D8: connected to the servo motor
